@@ -19,4 +19,6 @@ class Genre extends Model
         'id' => 'string'
     ];
 
+    public $incrementing = false;
+
 }

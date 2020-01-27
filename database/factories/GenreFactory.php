@@ -7,6 +7,6 @@ use Illuminate\Database\Eloquent\Factory;
 
 $factory->define(\App\Model\Genre::class, function (Faker $faker) {
     return [
-        'name' => $faker->colorName
+        'name' => $faker->country
     ];
 });
