@@ -6,6 +6,7 @@ use App\Model\Category;
 use Illuminate\Foundation\Testing\DatabaseMigrations;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Foundation\Testing\WithFaker;
+use Ramsey\Uuid\Uuid;
 use Tests\TestCase;
 
 class CategoryTest extends TestCase
@@ -78,6 +79,14 @@ class CategoryTest extends TestCase
             'is_active' => true
         ]);
         $this->assertTrue($category->is_active);
+
+        $category = Category::create([
+            'name' => 'test 1',
+            'is_active' => true
+        ]);
+
+        $valid = Uuid::isValid($category->id);
+        $this->assertTrue($valid);
     }
 
     public function testUpdate()
@@ -98,6 +107,19 @@ class CategoryTest extends TestCase
         foreach ($data as $key => $value) {
             $this->assertEquals($value, $category->{$key});
         }
+    }
+
+    public function testDestroy()
+    {
+        /** @var Category $category */
+        $category = factory(Category::class)->create([
+            'name' => 'teste 01',
+            'description' => 'test_description',
+            'is_active' => false
+        ])->first();
+
+        $delete = $category->delete();
+        $this->assertTrue($delete);
     }
 
 }
