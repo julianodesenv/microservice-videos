@@ -116,7 +116,7 @@ class genreControllerTest extends TestCase
         ]);
 
         $response->assertJsonFragment([
-           'is_active' => false
+            'is_active' => false
         ]);
     }
 
@@ -150,15 +150,15 @@ class genreControllerTest extends TestCase
 
     }
 
-    public function testDelete()
+    public function testDestroy()
     {
-        $genre = factory(Genre::class)->create([
-            'name' => 'name aqui',
-            'is_active' => false
-        ]);
+        $genre = factory(Genre::class)->create();
 
         $response = $this->json('DELETE', route('genres.destroy', ['genre' => $genre->id]));
         $response->assertStatus(204);
+
+        $this->assertNull(Genre::find($genre->id));
+        $this->assertNotNull(Genre::withTrashed()->find($genre->id));
     }
 
 }
